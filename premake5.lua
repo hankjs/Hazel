@@ -1,5 +1,5 @@
 workspace "Hazel"
-	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -29,10 +29,28 @@ project "Hazel"
 		"%{prj.name}/vendor/spdlog/include"
 	}
 
+	filter "system:macosx"
+		cppdialect "C++17"
+		staticruntime "On"
+		architecture "ARM64"
+
+		defines
+		{
+			"HZ_PLATFORM_MACOS",
+			"HZ_BUILD_DLL"
+		}
+
+		postbuildcommands
+		{
+      ("{MKDIR} ../bin/" .. outputdir .. "/Sandbox/"),
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
+		}
+
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "10.0.17134.0"
+	  architecture "x64"
 
 		defines
 		{
@@ -42,7 +60,7 @@ project "Hazel"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
@@ -82,10 +100,21 @@ project "Sandbox"
 		"Hazel"
 	}
 
+	filter "system:macosx"
+		cppdialect "C++17"
+		staticruntime "On"
+		architecture "ARM64"
+
+		defines
+		{
+			"HZ_PLATFORM_MACOS",
+		}
+
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "10.0.17134.0"
+	  architecture "x64"
 
 		defines
 		{

@@ -14,3 +14,10 @@ bin-int/
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+# XCode4
+*.xcworkspace
+*.xcuserdata
+*.xcodeproj
+# GMake
+Makefile
+CMakeCache.txt
