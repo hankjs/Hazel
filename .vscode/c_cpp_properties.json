@@ -3,7 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/Hazel/src/**",
+                "${workspaceFolder}/Hazel/vendor/spdlog/include/**",
             ],
             "defines": [
                 "HZ_PLATFORM_MACOS"

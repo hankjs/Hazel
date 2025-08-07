@@ -1,9 +1,10 @@
 #pragma once
 
-#include <memory>
-
 #include "Core.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
+#include <spdlog/fmt/bundled/format.h>
+#include "Hazel/Events/Event.h"
 
 namespace Hazel {
 
@@ -34,3 +35,14 @@ namespace Hazel {
 #define HZ_WARN(...)	      ::Hazel::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define HZ_ERROR(...)	      ::Hazel::Log::GetClientLogger()->error(__VA_ARGS__)
 #define HZ_FATAL(...)	      ::Hazel::Log::GetClientLogger()->fatal(__VA_ARGS__)
+
+template<typename T>
+struct fmt::formatter<T, char, std::enable_if_t<std::is_base_of<Hazel::Event, T>::value>> {
+    template <typename ParseContext>
+    constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
+
+    template <typename FormatContext>
+    auto format(const T& evt, FormatContext& ctx) const {
+        return fmt::format_to(ctx.out(), "{}", evt.ToString());
+    }
+};
